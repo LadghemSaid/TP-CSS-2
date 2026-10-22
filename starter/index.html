@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Le Grand Format — magazine étudiant de l'IUT</title>
+  <meta name="description" content="Le Grand Format, le magazine des étudiants de l'IUT : campus, culture, sciences, sport et opinions.">
+  <!--
+    TP2 — Mise en page d'un magazine.
+    Vous ne modifiez PAS ce fichier HTML : toute la mise en page se fait dans style.css.
+    Les « photos » sont des <div role="img"> dont le visuel est un dégradé CSS (fourni).
+  -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+  <!-- ===================== EN-TÊTE (masthead) ===================== -->
+  <header class="masthead pleine-largeur">
+    <div class="masthead__inner">
+      <a class="masthead__logo" href="#">
+        <span class="masthead__titre">Le Grand Format</span>
+        <span class="masthead__numero">n° 42 · novembre 2026</span>
+      </a>
+      <nav class="masthead__nav" aria-label="Rubriques">
+        <ul class="masthead__liens">
+          <li><a href="#une">Campus</a></li>
+          <li><a href="#a-lire">Culture</a></li>
+          <li><a href="#a-lire">Sciences</a></li>
+          <li><a href="#a-lire">Sport</a></li>
+          <li><a href="#a-lire">Opinions</a></li>
+        </ul>
+      </nav>
+      <a class="bouton" href="#abonnement">S'abonner</a>
+    </div>
+  </header>
+
+  <main class="contenu-principal">
+
+    <!-- ===================== LA UNE ===================== -->
+    <article class="une" id="une" aria-labelledby="titre-une">
+      <p class="une__rubrique tag">Campus</p>
+      <h1 class="une__titre" id="titre-une">Le campus passe au vert&nbsp;: 2&nbsp;000&nbsp;m² de potager sur les toits de l'IUT</h1>
+      <p class="une__chapo">Depuis la rentrée, une quarantaine d'étudiants cultivent tomates, courges et herbes aromatiques sur les toits du bâtiment C. Reportage au milieu des bacs, entre deux cours de réseau.</p>
+      <figure class="une__visuel">
+        <div class="visuel visuel--vert" role="img" aria-label="Bacs de légumes sur un toit, avec la ville en arrière-plan"></div>
+        <figcaption>Les premiers bacs ont été montés en septembre avec du bois de palettes récupéré.</figcaption>
+      </figure>
+      <p class="une__auteur">Par <strong>Inès Morel</strong> et <strong>Hugo Lefebvre</strong> · 6&nbsp;min de lecture</p>
+      <div class="une__texte">
+        <p>Il est 8&nbsp;h 15, et Lina arrose déjà les plants de basilic. «&nbsp;Le matin, c'est le seul moment où il ne fait pas trop chaud là-haut&nbsp;», explique l'étudiante de deuxième année, arrosoir à la main. Autour d'elle, une trentaine de bacs en bois s'alignent sur l'ancienne toiture gravillonnée du bâtiment C.</p>
+        <p>Le projet est né d'un sujet de SAÉ l'an dernier&nbsp;: mesurer l'isolation thermique d'une toiture végétalisée. Les capteurs sont toujours là, reliés à un petit serveur qui publie les températures en direct sur l'intranet. Résultat&nbsp;: jusqu'à 4&nbsp;°C de moins dans les salles du dernier étage en juin.</p>
+        <p>La récolte est partagée entre les bénévoles et l'épicerie solidaire du campus. Prochaine étape&nbsp;: un composteur alimenté par les déchets du restaurant universitaire.</p>
+      </div>
+      <aside class="une__encadre" aria-labelledby="titre-chiffres">
+        <h2 class="encadre__titre" id="titre-chiffres">En chiffres</h2>
+        <dl class="chiffres">
+          <div><dt>Toiture cultivée</dt><dd>2&nbsp;000&nbsp;m²</dd></div>
+          <div><dt>Bénévoles</dt><dd>38</dd></div>
+          <div><dt>Légumes récoltés</dt><dd>1,2&nbsp;t</dd></div>
+          <div><dt>Pesticides</dt><dd>0</dd></div>
+        </dl>
+      </aside>
+    </article>
+
+    <!-- ===================== CITATION PLEINE LARGEUR ===================== -->
+    <figure class="citation pleine-largeur">
+      <div class="citation__inner">
+        <blockquote>
+          <p>On ne fait pas pousser des tomates, on fait pousser une communauté.</p>
+        </blockquote>
+        <figcaption>Lina, étudiante en 2e année, responsable du potager</figcaption>
+      </div>
+    </figure>
+
+    <!-- ===================== À LIRE AUSSI (cartes) ===================== -->
+    <section class="a-lire" id="a-lire" aria-labelledby="titre-a-lire">
+      <h2 class="section__titre" id="titre-a-lire">À lire aussi</h2>
+      <div class="cartes">
+        <article class="carte">
+          <div class="visuel visuel--nuit carte__visuel" role="img" aria-label="Salle de cinéma plongée dans le noir"></div>
+          <p class="carte__rubrique tag">Culture</p>
+          <h3 class="carte__titre"><a href="#">Festival de courts-métrages&nbsp;: la sélection officielle dévoilée</a></h3>
+          <p class="carte__extrait">Douze films, dont trois réalisés par des étudiants du département MMI.</p>
+          <p class="carte__meta">12 nov. · 3&nbsp;min</p>
+        </article>
+
+        <article class="carte">
+          <div class="visuel visuel--ocean carte__visuel" role="img" aria-label="Robot sous-marin jaune dans une eau bleue"></div>
+          <p class="carte__rubrique tag">Sciences</p>
+          <h3 class="carte__titre"><a href="#">Un robot sous-marin conçu en TP rejoint une mission océanographique au large de Brest</a></h3>
+          <p class="carte__extrait">Parti d'un projet de deuxième année en informatique embarquée, le drone «&nbsp;Narval&nbsp;» va cartographier des herbiers marins pendant trois semaines. Ses concepteurs racontent les nuits blanches, les fuites d'eau et la première plongée réussie.</p>
+          <p class="carte__meta">10 nov. · 7&nbsp;min</p>
+        </article>
+
+        <article class="carte">
+          <div class="visuel visuel--brique carte__visuel" role="img" aria-label="Joueurs de rugby en mêlée"></div>
+          <p class="carte__rubrique tag">Sport</p>
+          <h3 class="carte__titre"><a href="#">Rugby&nbsp;: la belle saison</a></h3>
+          <p class="carte__extrait">Cinq victoires d'affilée pour l'équipe féminine.</p>
+          <p class="carte__meta">9 nov. · 2&nbsp;min</p>
+        </article>
+
+        <article class="carte">
+          <div class="visuel visuel--lavande carte__visuel" role="img" aria-label="Amphithéâtre pendant un examen"></div>
+          <p class="carte__rubrique tag">Opinions</p>
+          <h3 class="carte__titre"><a href="#">Faut-il des examens sans écrans&nbsp;?</a></h3>
+          <p class="carte__extrait">Deux enseignants et une étudiante débattent du retour du papier en période de partiels, entre triche, accessibilité et écologie.</p>
+          <p class="carte__meta">7 nov. · 5&nbsp;min</p>
+        </article>
+
+        <article class="carte">
+          <div class="visuel visuel--sable carte__visuel" role="img" aria-label="Rayonnages de la bibliothèque éclairés le soir"></div>
+          <p class="carte__rubrique tag">Campus</p>
+          <h3 class="carte__titre"><a href="#">La bibliothèque ouvre jusqu'à 22&nbsp;h pendant les partiels, une première depuis sa création</a></h3>
+          <p class="carte__extrait">Une pétition de 900 signatures a convaincu la direction.</p>
+          <p class="carte__meta">5 nov. · 3&nbsp;min</p>
+        </article>
+
+        <article class="carte">
+          <div class="visuel visuel--soleil carte__visuel" role="img" aria-label="Scène de concert avec des projecteurs orange"></div>
+          <p class="carte__rubrique tag">Culture</p>
+          <h3 class="carte__titre"><a href="#">Concert gratuit au foyer jeudi</a></h3>
+          <p class="carte__extrait">Trois groupes du campus, une scène ouverte et des crêpes à prix libre au profit de l'association humanitaire de l'IUT.</p>
+          <p class="carte__meta">3 nov. · 1&nbsp;min</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== SOMMAIRE + TAGS ===================== -->
+    <section class="numero" aria-labelledby="titre-numero">
+      <h2 class="section__titre" id="titre-numero">Dans ce numéro</h2>
+      <div class="numero__grille">
+        <dl class="sommaire">
+          <dt>p. 4</dt><dd>Le potager sur les toits</dd>
+          <dt>p. 12</dt><dd>Festival de courts-métrages&nbsp;: les coulisses de la sélection</dd>
+          <dt>p. 18</dt><dd>Narval, le robot sous-marin</dd>
+          <dt>p. 26</dt><dd>Rugby féminin&nbsp;: portrait de la capitaine</dd>
+          <dt>p. 31</dt><dd>Débat&nbsp;: examens sans écrans</dd>
+          <dt>p. 104</dt><dd>Hors-série&nbsp;: vingt ans de journal étudiant</dd>
+        </dl>
+        <div class="tags-zone">
+          <h3 class="tags-zone__titre">Mots-clés</h3>
+          <ul class="tags">
+            <li class="tag">potager</li>
+            <li class="tag">cinéma</li>
+            <li class="tag">robotique</li>
+            <li class="tag">rugby</li>
+            <li class="tag">examens</li>
+            <li class="tag">bibliothèque</li>
+            <li class="tag">musique</li>
+            <li class="tag">vie étudiante</li>
+            <li class="tag">développement durable</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GALERIE (EXERCICE D'APPROFONDISSEMENT) ============ -->
+    <section class="galerie" aria-labelledby="titre-galerie">
+      <h2 class="section__titre" id="titre-galerie">Instantanés du campus</h2>
+      <div class="galerie__grille">
+        <div class="tuile tuile--large visuel visuel--vert" role="img" aria-label="Vue aérienne du potager"></div>
+        <div class="tuile visuel visuel--soleil" role="img" aria-label="Coucher de soleil sur le parking"></div>
+        <div class="tuile tuile--haute visuel visuel--nuit" role="img" aria-label="Couloir de l'IUT la nuit"></div>
+        <div class="tuile visuel visuel--menthe" role="img" aria-label="Plantes aromatiques en gros plan"></div>
+        <div class="tuile visuel visuel--brique" role="img" aria-label="Mur de briques du bâtiment A"></div>
+        <div class="tuile tuile--large visuel visuel--ocean" role="img" aria-label="Bassin d'essai du robot Narval"></div>
+        <div class="tuile visuel visuel--lavande" role="img" aria-label="Affiches du festival"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== PIED DE PAGE ===================== -->
+  <footer class="pied pleine-largeur" id="abonnement">
+    <div class="pied__inner">
+      <p><strong>Le Grand Format</strong> — magazine des étudiants de l'IUT, n° 42.</p>
+      <p>Rédaction&nbsp;: bâtiment B, bureau 112. Abonnement gratuit pour les étudiants et le personnel.</p>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

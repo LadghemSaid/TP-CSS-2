@@ -1,0 +1,484 @@
+/* =====================================================================
+   TP2 — Mise en page d'un magazine — FICHIER À COMPLÉTER
+   Module CSS avancé — L3 — Jour 1
+   ---------------------------------------------------------------------
+   - Toute la mise en page est à écrire ici ; index.html ne change pas.
+   - Architecture du TP1 : couches, nesting natif, pas de !important.
+   - Mobile-first : écrivez d'abord le rendu 1 colonne, puis ajoutez
+     les colonnes avec @media (width >= 48rem) et (width >= 64rem).
+   - Chaque endroit à compléter est marqué « TODO étape N ».
+   ===================================================================== */
+
+@layer reset, base, layout, components;
+
+
+/* =====================================================================
+   FOURNI — reset, tokens, typographie et visuels de remplacement
+   Vous n'avez rien à écrire dans ce bloc… sauf à l'étape 2.
+   ===================================================================== */
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  :where(body, h1, h2, h3, p, figure, blockquote, dl, dd, ul) {
+    margin: 0;
+  }
+
+  :where(ul[class]) {
+    list-style: none;
+    padding: 0;
+  }
+}
+
+@layer base {
+  :root {
+    --papier: #f7f3ea;
+    --papier-fonce: #ece5d6;
+    --encre: #151515;
+    --encre-douce: #55524c;
+    --rouge: #c8312b;
+    --rouge-fonce: #9e221d;
+    --bleu: #1d4e89;
+    --filet: #cfc6b3;
+
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    --marge: 1rem;          /* marge minimale sur les côtés */
+    --largeur-max: 72rem;   /* largeur maximale du contenu */
+  }
+
+  body {
+    font-family: var(--sans);
+    color: var(--encre);
+    background: var(--papier);
+    line-height: 1.6;
+  }
+
+  :where(h1, h2, h3) {
+    font-family: var(--serif);
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--bleu);
+    outline-offset: 3px;
+  }
+
+  /* Visuels de remplacement : de simples dégradés CSS. */
+  .visuel {
+    border-radius: 0.25rem;
+    background-color: var(--papier-fonce);
+
+    /* TODO étape 2 — Hauteur PROVISOIRE : un <div> vide n'a aucune
+       hauteur. Supprimez cette ligne et donnez plutôt un aspect-ratio
+       aux visuels (dans la couche components). */
+    min-block-size: 6rem;
+  }
+
+  .visuel--vert {
+    background:
+      radial-gradient(circle at 75% 25%, #f9e79f 0 8%, transparent 9%),
+      repeating-linear-gradient(90deg, #2d6a4f 0 18px, #40916c 18px 36px),
+      #2d6a4f;
+    background-size: auto, 100% 55%, auto;
+    background-position: 0 0, 0 100%, 0 0;
+    background-repeat: no-repeat;
+    background-color: #95d5b2;
+  }
+
+  .visuel--nuit {
+    background:
+      radial-gradient(circle at 30% 30%, rgb(255 255 255 / 0.5) 0 1px, transparent 2px) 0 0 / 40px 40px,
+      linear-gradient(160deg, #1b1f3b, #3d2c8d 60%, #6d3fa0);
+  }
+
+  .visuel--ocean {
+    background:
+      radial-gradient(ellipse at 50% 55%, #ffd60a 0 9%, transparent 10%),
+      linear-gradient(180deg, #48cae4, #0077b6 55%, #023e8a);
+  }
+
+  .visuel--brique {
+    background:
+      repeating-linear-gradient(0deg, transparent 0 22px, rgb(0 0 0 / 0.18) 22px 25px),
+      repeating-linear-gradient(90deg, transparent 0 46px, rgb(0 0 0 / 0.12) 46px 49px),
+      linear-gradient(135deg, #bc4b51, #8c2f39);
+  }
+
+  .visuel--lavande {
+    background:
+      linear-gradient(90deg, transparent 0 48%, rgb(255 255 255 / 0.35) 48% 52%, transparent 52%),
+      linear-gradient(135deg, #b8a1e3, #6c5b9e);
+  }
+
+  .visuel--sable {
+    background:
+      repeating-linear-gradient(90deg, #a47148 0 10px, #c89f74 10px 16px, #7f5539 16px 22px),
+      #e6ccb2;
+    background-size: 100% 30%, auto;
+    background-position: 0 70%, 0 0;
+    background-repeat: no-repeat;
+    background-color: #f2e2c4;
+  }
+
+  .visuel--soleil {
+    background:
+      radial-gradient(circle at 50% 110%, #ffba08 0 25%, #f48c06 26% 40%, transparent 41%),
+      linear-gradient(180deg, #370617, #9d0208 60%, #dc2f02);
+  }
+
+  .visuel--menthe {
+    background:
+      radial-gradient(circle at 30% 40%, #52b788 0 18%, transparent 19%),
+      radial-gradient(circle at 65% 60%, #40916c 0 22%, transparent 23%),
+      radial-gradient(circle at 45% 80%, #74c69d 0 14%, transparent 15%),
+      #d8f3dc;
+  }
+}
+
+
+/* =====================================================================
+   LAYOUT
+   ===================================================================== */
+@layer layout {
+
+  /* TODO étape 3 — Gabarit de page à LIGNES NOMMÉES
+     .page : grille de 3 colonnes
+       [plein-start] marge élastique (au moins var(--marge))
+       [contenu-start] contenu (au plus var(--largeur-max))
+       [contenu-end] marge élastique
+       [plein-end]
+     Puis :
+     - .contenu-principal et .pleine-largeur occupent « plein » et
+       réutilisent les colonnes de .page (subgrid) ;
+     - leurs enfants vont par défaut dans « contenu » ;
+     - un .pleine-largeur placé DANS <main> (la citation) va dans « plein ». */
+  .page {
+  }
+
+
+  .contenu-principal {
+    /* Espacement vertical entre les grandes sections (fourni) */
+    row-gap: clamp(3rem, 2rem + 4vw, 5rem);
+    padding-block: 2rem 4rem;
+  }
+
+  /* TODO étape 4 — La Une avec grid-template-areas
+     1. Mobile : 1 colonne, zones dans l'ordre
+        rubrique, titre, chapo, visuel, auteur, texte, encadre.
+     2. ≥ 48rem : 2 colonnes (1fr / 1.6fr), voir le croquis de l'énoncé.
+     3. ≥ 64rem : 3 colonnes, l'encadré « En chiffres » à droite.
+     Utilisez le nesting : & .une__titre { grid-area: titre; } … */
+  .une {
+    display: grid;
+    gap: 1.25rem 2rem;
+  }
+
+
+  /* TODO étape 6 — Grille de cartes « RAM » (Repeat, Auto-fit, Minmax)
+     Cartes de 16rem minimum, autant de colonnes que possible,
+     et AUCUN débordement horizontal à 320px de large. */
+  .cartes {
+    gap: 2.5rem 1.75rem;
+  }
+
+  /* Sommaire et mots-clés côte à côte si la place le permet (fourni) */
+  .numero__grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: 2rem 3rem;
+    align-items: start;
+  }
+}
+
+
+/* =====================================================================
+   COMPONENTS
+   L'habillage (couleurs, typo) est fourni ; il manque la mise en page.
+   ===================================================================== */
+@layer components {
+
+  /* --- Masthead -------------------------------------------------------
+     TODO étape 1 — Flexbox :
+     - .masthead__inner : logo, navigation et bouton sur une ligne,
+       centrés verticalement, qui passent à la ligne sur petit écran ;
+     - le logo ne doit jamais rétrécir (raccourci flex) ;
+     - les liens de .masthead__liens côte à côte, avec un gap ;
+     - le bouton « S'abonner » poussé tout à droite (sans position). */
+  .masthead {
+    border-block-end: 4px double var(--encre);
+    background: var(--papier);
+
+    & .masthead__inner {
+      padding-block: 1rem;
+    }
+
+    & .masthead__logo {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+    }
+
+    & .masthead__titre {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    & .masthead__numero {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--encre-douce);
+    }
+
+    & .masthead__liens a {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      padding-block: 0.25rem;
+      border-block-end: 2px solid transparent;
+
+      &:hover {
+        border-block-end-color: var(--rouge);
+      }
+    }
+  }
+
+  .bouton {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    border-radius: 999px;
+    background: var(--rouge);
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--rouge-fonce);
+    }
+  }
+
+  /* --- Titres de section ----------------------------------------------- */
+  .section__titre {
+    font-size: clamp(1.6rem, 1.3rem + 1vw, 2.1rem);
+    padding-block-end: 0.5rem;
+    margin-block-end: 1.5rem;
+    border-block-end: 1px solid var(--encre);
+  }
+
+  /* --- Étiquettes -------------------------------------------------------
+     TODO étape 5 — Une étiquette s'étire sur toute la largeur de son
+     conteneur. Réduisez-la à la largeur de son texte (une seule ligne). */
+  .tag {
+    padding: 0.15rem 0.6rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rouge-fonce);
+    line-height: 1.6;
+  }
+
+  /* --- La Une : habillage ---------------------------------------------- */
+  .une {
+    & .une__titre {
+      font-size: clamp(2rem, 1.2rem + 3.6vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    & .une__chapo {
+      font-family: var(--serif);
+      font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+      font-style: italic;
+      color: var(--encre-douce);
+    }
+
+    /* TODO étape 2 — Visuel de la Une : format 4/3 sur mobile,
+       21/9 à partir de 48rem (media query imbriquée). */
+    & .une__visuel .visuel {
+    }
+
+    & figcaption {
+      margin-block-start: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--encre-douce);
+    }
+
+    & .une__auteur {
+      font-size: 0.9rem;
+      padding-block-start: 0.75rem;
+      border-block-start: 3px solid var(--rouge);
+    }
+
+    & .une__texte {
+      display: grid;
+      gap: 1rem;
+      font-size: 1.05rem;
+    }
+  }
+
+  .une__encadre {
+    padding: 1.25rem 1.5rem;
+    background: var(--encre);
+    color: var(--papier);
+    border-block-start: 6px solid var(--rouge);
+
+    & .encadre__titre {
+      font-size: 1.3rem;
+      margin-block-end: 0.75rem;
+    }
+  }
+
+  /* TODO étape 5 — Chaque ligne de .chiffres (les <div>) : intitulé à
+     gauche, chiffre à droite, alignés sur la ligne de base (Flexbox).
+     « 2 000 m² » ne doit jamais passer sur deux lignes. */
+  .chiffres {
+    & > div {
+      padding-block: 0.6rem;
+      border-block-end: 1px dotted rgb(255 255 255 / 0.35);
+    }
+
+    & dt {
+      font-size: 0.9rem;
+      color: rgb(255 255 255 / 0.8);
+    }
+
+    & dd {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 800;
+    }
+  }
+
+  /* --- Citation pleine largeur ----------------------------------------- */
+  .citation {
+    background: var(--rouge);
+    color: #fff;
+    padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+
+    & blockquote p {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 1.1rem + 2.4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      max-inline-size: 28ch;
+
+      &::before { content: "« "; }
+      &::after  { content: " »"; }
+    }
+
+    & figcaption {
+      margin-block-start: 1rem;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+  }
+
+  /* --- Cartes « À lire aussi » ------------------------------------------
+     TODO étape 2 — .carte__visuel au format 3/2.
+     TODO étape 7 — subgrid : chaque carte a 5 enfants ; faites-lui
+     occuper 5 lignes de .cartes et adopter ces lignes, pour que titres,
+     extraits et dates s'alignent d'une carte à l'autre. Les dates
+     (.carte__meta) doivent être collées en bas. */
+  .carte {
+    & .carte__titre {
+      font-size: 1.3rem;
+      margin-block: 0.6rem;
+
+      & a {
+        text-decoration: none;
+      }
+    }
+
+    & .carte__extrait {
+      color: var(--encre-douce);
+      font-size: 0.95rem;
+      margin-block-end: 0.6rem;
+    }
+
+    & .carte__meta {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--encre-douce);
+      padding-block-start: 0.5rem;
+      border-block-start: 1px solid var(--filet);
+    }
+  }
+
+  /* --- Sommaire ----------------------------------------------------------
+     TODO étape 5 — Grille à 2 colonnes : la 1re aussi large que le plus
+     long numéro de page (sans valeur fixe !), la 2e prend le reste. */
+  .sommaire {
+    & dt,
+    & dd {
+      padding-block: 0.65rem;
+      border-block-end: 1px solid var(--filet);
+    }
+
+    & dt {
+      font-weight: 800;
+      color: var(--rouge-fonce);
+      font-variant-numeric: tabular-nums;
+    }
+
+    & dd {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+    }
+  }
+
+  .tags-zone__titre {
+    font-size: 1.2rem;
+    margin-block-end: 0.75rem;
+  }
+
+  /* TODO étape 5 — Les mots-clés côte à côte, qui passent à la ligne. */
+  .tags {
+    & .tag {
+      font-size: 0.8rem;
+      color: var(--encre);
+      background: var(--papier-fonce);
+      border-color: transparent;
+      padding: 0.3rem 0.8rem;
+    }
+  }
+
+  /* TODO EXERCICE D'APPROFONDISSEMENT (facultatif) — Mosaïque « Instantanés du campus »
+     2 colonnes sur mobile, 5 à partir de 48rem ; lignes automatiques de
+     8rem (10rem sur grand écran) ; .tuile--large occupe 2 colonnes,
+     .tuile--haute 2 lignes ; AUCUN trou dans la mosaïque. */
+  .galerie__grille {
+  }
+
+  /* --- Pied de page ------------------------------------------------------ */
+  .pied {
+    background: var(--encre);
+    color: rgb(255 255 255 / 0.8);
+    padding-block: 2rem;
+    font-size: 0.9rem;
+
+    & .pied__inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.5rem 2rem;
+    }
+  }
+}
